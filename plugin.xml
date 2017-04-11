@@ -51,7 +51,7 @@
 
 
     <config-file target="*-Info.plist" parent="CFBundleDisplayName">
-      <string>WorkAI</string>
+      <string>点圈</string>
     </config-file>
 
     <config-file target="*-Info.plist" parent="NSAppTransportSecurity">
