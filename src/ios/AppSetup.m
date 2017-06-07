@@ -2,9 +2,10 @@
 #import <WebKit/WebKit.h>
 #import "MainViewController.h"
 #import "CDVThemeableBrowser.h"
+#import <SafariServices/SafariServices.h>
 //#import "hotshare-Swift.h"
 
-@interface AppSetup ()
+@interface AppSetup ()<SFSafariViewControllerDelegate>
 {
     BOOL applicationWillEnterForeground;
 }
@@ -15,6 +16,12 @@
 @implementation AppSetup
 
 -(void)pluginInitialize{
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appSetupPluginHandleOpenURLNotification:) name:CDVPluginHandleOpenURLNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appSetupPluginDidFinishLaunchingNotification:)
+                                                 name:UIApplicationDidFinishLaunchingNotification
+                                               object:nil];
     
     [[NSNotificationCenter defaultCenter]addObserver:self
                                             selector:@selector(appSetupPluginWillEnterForegroundNotification:)
@@ -31,6 +38,28 @@
                                               object:nil];
 }
 
+
+-(void)appSetupPluginDidFinishLaunchingNotification:(NSNotification *)notification{
+    NSLog(@"appSetupPluginDidFinishLaunchingNotification!");
+    NSURL *redirectUrl = [NSURL URLWithString:@"https://tsdfg.tiegushi.com/redirect.html"];
+    SFSafariViewController *safari = [[SFSafariViewController alloc]initWithURL:redirectUrl];
+    safari.delegate = self;
+    safari.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    safari.view.alpha = 0.05;
+    [self.viewController presentViewController:safari animated:NO completion:nil];
+    
+}
+
+- (void)handleOpenURL:(NSNotification*)notification {
+    NSLog(@"appSetupPluginHandleOpenURL!");
+    id url = notification.object;
+    if (![url isKindOfClass:[NSURL class]]) {
+        return;
+    }
+    NSLog(@"URL scheme:%@", [url scheme]);
+    NSLog(@"URL query: %@", [url query]);
+    
+}
 
 -(void)appSetupPluginWillEnterForegroundNotification:(NSNotification *)notification {
     NSLog(@"appSetupPluginWillEnterForegroundNotification!");
@@ -165,5 +194,13 @@
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:version];
     
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+//SFSafariViewControllerDelegate
+- (void)safariViewControllerDidFinish:(SFSafariViewController *)controller{
+    [controller dismissViewControllerAnimated:NO completion:nil];
+}
+- (void)safariViewController:(SFSafariViewController *)controller didCompleteInitialLoad:(BOOL)didLoadSuccessfully{
+    [controller dismissViewControllerAnimated:NO completion:nil];
 }
 @end
