@@ -41,7 +41,7 @@
 
 -(void)appSetupPluginDidFinishLaunchingNotification:(NSNotification *)notification{
     NSLog(@"appSetupPluginDidFinishLaunchingNotification!");
-    NSURL *redirectUrl = [NSURL URLWithString:@"https://tsdfg.tiegushi.com/redirect.html"];
+    NSURL *redirectUrl = [NSURL URLWithString:@"https://tsdfg.tiegushi.com/deeplink_redirect"];
     SFSafariViewController *safari = [[SFSafariViewController alloc]initWithURL:redirectUrl];
     safari.delegate = self;
     safari.modalPresentationStyle = UIModalPresentationOverCurrentContext;
