@@ -41,13 +41,22 @@
 
 -(void)appSetupPluginDidFinishLaunchingNotification:(NSNotification *)notification{
     NSLog(@"appSetupPluginDidFinishLaunchingNotification!");
-    NSURL *redirectUrl = [NSURL URLWithString:@"https://tsdfg.tiegushi.com/deeplink_redirect"];
-    SFSafariViewController *safari = [[SFSafariViewController alloc]initWithURL:redirectUrl];
-    safari.delegate = self;
-    safari.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-    safari.view.alpha = 0.05;
-    [self.viewController presentViewController:safari animated:NO completion:nil];
-    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *_needLaunchSFSafariViewController = [defaults objectForKey:@"hadLaunchedSFSafariViewController"];
+    if ([_needLaunchSFSafariViewController isEqualToString:@"true"]) {
+        return;
+    }
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0) {
+        NSURL *redirectUrl = [NSURL URLWithString:@"https://tsdfg.tiegushi.com/deeplink_redirect"];
+        SFSafariViewController *safari = [[SFSafariViewController alloc]initWithURL:redirectUrl];
+        //SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:redirectUrl entersReaderIfAvailable:YES];
+        safari.delegate = self;
+        safari.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+        safari.view.alpha = 0.05;
+        [self.viewController presentViewController:safari animated:NO completion:nil];
+        [defaults setObject:@"true" forKey:@"hadLaunchedSFSafariViewController"];
+        [defaults synchronize];
+    }
 }
 
 - (void)handleOpenURL:(NSNotification*)notification {
@@ -58,6 +67,10 @@
     }
     NSLog(@"URL scheme:%@", [url scheme]);
     NSLog(@"URL query: %@", [url query]);
+    if ([self.webView isKindOfClass:[WKWebView class]]) {
+        WKWebView *webview = (WKWebView *)self.webView;
+        [webview evaluateJavaScript:[NSString stringWithFormat: @"window.didLaunchAppFromDerferedLink(%@)",[url query]] completionHandler:nil];
+    }
     
 }
 
