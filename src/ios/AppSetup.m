@@ -19,10 +19,10 @@
 -(void)pluginInitialize{
     
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appSetupPluginHandleOpenURLNotification:) name:CDVPluginHandleOpenURLNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(appSetupPluginDidFinishLaunchingNotification:)
-                                                 name:UIApplicationDidFinishLaunchingNotification
-                                               object:nil];
+    // [[NSNotificationCenter defaultCenter] addObserver:self
+    //                                          selector:@selector(appSetupPluginDidFinishLaunchingNotification:)
+    //                                              name:UIApplicationDidFinishLaunchingNotification
+    //                                            object:nil];
     
     [[NSNotificationCenter defaultCenter]addObserver:self
                                             selector:@selector(appSetupPluginWillEnterForegroundNotification:)
@@ -152,7 +152,7 @@
                             
                         }
                         
-                        [self.viewController viewDidLoad];
+                        //[self.viewController viewDidLoad];
                         
                     }
                     else{
