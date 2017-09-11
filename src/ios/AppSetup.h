@@ -5,4 +5,6 @@
 
 - (void) getVersion:(CDVInvokedUrlCommand*)command;
 
+- (void) openSettings:(CDVInvokedUrlCommand*)command;
+
 @end

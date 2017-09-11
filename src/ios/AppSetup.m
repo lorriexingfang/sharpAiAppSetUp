@@ -226,4 +226,11 @@
     
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
+- (void) openSettings:(CDVInvokedUrlCommand*)command{
+    NSURL * url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+    if([[UIApplication sharedApplication] canOpenURL:url]) {
+        NSURL *url =[NSURL URLWithString:UIApplicationOpenSettingsURLString];
+        [[UIApplication sharedApplication] openURL:url];
+    }
+}
 @end

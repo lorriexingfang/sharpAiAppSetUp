@@ -8,6 +8,10 @@ AppSetup.prototype.getVersion = function (successCallback, errorCallback) {
     cordova.exec(successCallback, errorCallback, "AppSetup", "getVersion");
 };
 
+AppSetup.prototype.openSettings = function (successCallback, errorCallback) {
+    cordova.exec(successCallback, errorCallback, "AppSetup", "openSettings");
+};
+
 AppSetup.install = function () {
     if (!window.plugins) {
         window.plugins = {};
