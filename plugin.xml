@@ -44,11 +44,11 @@
     </config-file>
 
     <config-file target="*-Info.plist" parent="NSCameraUsageDescription">
-      <string>来了吗 需要您的同意,才能使用相机</string>
+      <string>来了吗 需要您的同意,才能使用相机，扫描二维码，加入新公司</string>
     </config-file>
 
     <config-file target="*-Info.plist" parent="NSPhotoLibraryUsageDescription">
-      <string>来了吗 需要您的同意,才能访问相册</string>
+      <string>来了吗 需要您的同意,才能访问相册，导入相册中的二维码，加入新公司</string>
     </config-file>
 
 
